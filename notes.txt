@@ -1,0 +1,10 @@
+1.
+sudo chown -c -R $USER:$USER $HOME
+sudo chown -c -R hundredson $HOME
+
+
+2.
+Excel input (import) component (jspreadsheet/spreadsheet)
+https://bossanova.uk/jspreadsheet/v4/examples/vue
+https://codesandbox.io/embed/vue-default-template-p4hwn
+https://github.com/jspreadsheet/example-with-vue

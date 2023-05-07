@@ -1,0 +1,69 @@
+version: '3.1'
+services:
+  
+  node:
+    depends_on:
+        - db
+    build:
+      context: ./node
+      dockerfile: Dockerfile
+    # command: sh -c "tail -f /dev/null" # command to keep runing the container
+    command: sh -c "nodemon index.js"
+    links:
+      - db
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./node:/usr/src/app 
+  
+  quasar:
+    build:
+      context: ./quasar
+      dockerfile: Dockerfile
+    # command: sh -c "tail -f /dev/null"
+    command: sh -c "quasar dev"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./quasar:/usr/src/app 
+      # After init quasar-project replace:
+      # - ./node:/usr/src/app/quasar-project
+  
+  db:
+    image: mysql:8.0
+    container_name: db
+    # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
+    # (this is just an example, not intended to be a production configuration)
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_DATABASE: belka
+      MYSQL_ROOT_PASSWORD: example
+      # MYSQL_ROOT_PASSWORD: 123
+      MYSQL_USER: root1
+      MYSQL_PASSWORD: 123
+      # MYSQL_DB: db    
+    volumes:
+      - ./mysql/db:/var/lib/mysql
+    ports:
+      - "3306:3306"
+  
+  phpmyadmin:
+    depends_on:
+        - db
+    image: phpmyadmin/phpmyadmin
+    container_name: pma
+    # hostname: database
+    links:
+      - db
+    restart: always
+    environment:
+      PMA_PORT: 3306
+    ports:
+      - 8081:80
+  
+  adminer:
+    image: adminer  
+    restart: always
+    ports:
+      - 8082:8080
