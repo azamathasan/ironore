@@ -30,7 +30,9 @@ services:
       # - ./node:/usr/src/app/quasar-project
   
   db:
-    image: mysql:8.0
+    # need 8.0.19 or later for INSERT ... ON DUPLICATE KEY UPDATE Statement (https://dev.mysql.com/doc/refman/8.0/en/insert-on-duplicate.html)
+    # check version: mysql -V (note the uppercase V)
+    image: mysql:8.0 
     container_name: db
     # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
     # (this is just an example, not intended to be a production configuration)

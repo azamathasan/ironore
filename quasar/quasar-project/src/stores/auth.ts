@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 // import { LocalStorage, SessionStorage } from 'quasar';
-import { SessionStorage } from 'quasar';
+import { Notify, SessionStorage } from 'quasar';
 // import { Axios } from 'axios';
 import axios, { api } from 'src/boot/axios';
 import { urls } from 'src/boot/axios';
@@ -28,7 +28,8 @@ export const useAuthStore = defineStore('auth', {
       console.log('login in auth-store')
       // const token =  await api.post('/login/', {username: username, password: password}, {
       // const token =  await api.post('/auth/', {username: username, password: password}, {
-      const token:string|null =  await api.post('auth/', {username: username, password: password}, {
+      // const token:string|null =  'null'
+      await api.post('auth/', {username: username, password: password}, {
       // const token =  await api.post('google.com', {username: username, password: password}, {
       // const token =  await api.post('http://localhost:3000/auth/', {username: username, password: password}, {
       // const token =  await api.post(urls.baseURL, {username: username, password: password}, {
@@ -37,11 +38,25 @@ export const useAuthStore = defineStore('auth', {
           //     'Content-Type': 'multipart/form-data'
         },
       })
-      this.token = token;
-      sessionStorage.setItem('token', (JSON.stringify(token)))
+      .then((response)=>{
+        // token=response.data
+        console.log('response.data: '+(response.data))
+        this.token = response.data;
+        sessionStorage.setItem('token', (JSON.stringify(this.token)))
+        this.router.push('/index');
+      })
+      .catch(()=>{
+        // this.router.push('/')
+        Notify.create({
+          message:'Login error'
+        })
+      })
+      // this.token = token;
+      // sessionStorage.setItem('token', (JSON.stringify(token)))
+      
 
       // router().push(this.returnUrl);
-      this.router.push('/');
+      // this.router.push('/');
       // return router
     },
     logout() {

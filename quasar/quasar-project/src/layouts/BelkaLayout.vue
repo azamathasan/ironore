@@ -3,7 +3,7 @@
 
     <!-- (Optional) The Header -->
     <q-header elevated>
-      <q-toolbar>
+      <!-- <q-toolbar>
         <q-btn
           flat
           round
@@ -14,26 +14,68 @@
         <q-toolbar-title>
           Header
         </q-toolbar-title>
-      </q-toolbar>
+      </q-toolbar> -->
 
       <q-tabs>
+        <q-toolbar>
+        <!-- <q-btn
+          flat
+          round
+          dense
+          icon="menu"
+          @click="leftDrawer = !leftDrawer"
+        /> -->
+        <q-toolbar-title>
+          Header
+        </q-toolbar-title>
+      </q-toolbar>
         <q-route-tab
+          icon="home"
+          to="/index"
+          replace
+          label="Home"
+        />
+        <q-route-tab
+          icon="person"
+          to="/users"
+          replace
+          label="Users"
+        />
+        <q-route-tab
+          icon="assignment"
+          to="/tablemode"
+          replace
+          label="Table mode"
+        />
+        <q-route-tab
+          icon="table"
+          to="/excelmode"
+          replace
+          label="Excel mode"
+        />
+        <!-- <q-route-tab
+          icon="close"
+          to="/users"
+          replace
+          label="Exit"
+        /> -->
+        <q-route-tab
+          icon="close"
+          @click="logout"
+          replace
+          label="Exit"
+        />
+        <!-- <q-route-tab
           icon="map"
           to="/your/route"
           replace
           label="One Tab"
-        />
-        <q-route-tab
-          icon="assignment"
-          to="/some/other/route"
-          replace
-          label="Other Tab"
-        />
+        /> -->
       </q-tabs>
     </q-header>
 
     <!-- (Optional) The Footer -->
-    <q-footer>
+    <!-- <q-footer>
       <q-tabs switch-indicator>
         <q-route-tab
           icon="map"
@@ -61,7 +103,7 @@
           Footer
         </q-toolbar-title>
       </q-toolbar>
-    </q-footer>
+    </q-footer> -->
 
     <!-- (Optional) A Drawer; you can add one more with side="right" or change this one's side -->
     <q-drawer
@@ -85,13 +127,18 @@
 </template>
 
 <script lang="ts">
+import { useAuthStore } from 'src/stores/auth'
 import { defineComponent, ref } from 'vue'
 export default defineComponent({
   // name: 'LayoutName',
 
   setup() {
+    const authStore = useAuthStore()
     const leftDrawer = ref(false)
-    return { leftDrawer }
+    async function logout() {
+      authStore.logout()
+    }
+    return { leftDrawer, logout }
   }
 })
 </script>

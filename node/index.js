@@ -29,8 +29,20 @@ const secret = 'belka'
 // });}
 
 
+// const pool = mysql.createPool({
+//     connectionLimit: 5,
+//     host: "localhost",
+//     user: "root",
+//     database: "usersdb2",
+//     password: "123456"
+//   });
+
 const mysql = require('mysql')
-const connection = mysql.createConnection({
+// const connection = mysql.createConnection({
+const connection = mysql.createPool({
+
+connectionLimit: 5,
+
   host: 'db',
   user: 'root1',
   password: '123',
@@ -51,7 +63,8 @@ const connection = mysql.createConnection({
 
 
 
-connection.connect(function(err) {
+// connection.connect(function(err) {
+connection.getConnection(function(err) {
     if (err) throw err;
     console.log("Connected!");
     // var sql = "CREATE TABLE IF NOT EXISTS users (login VARCHAR(255), name VARCHAR(255), password VARCHAR(255))";
@@ -360,6 +373,127 @@ app.post('/addconcentrate', async function(req,res){
         // res.json('User added')
         res.status(200).send('Concentrate added')
     })
+})
+
+  ////////////////////////
+ // update concentrate //
+////////////////////////
+// 
+app.post('/updateconcentrates', async function(req,res){
+    if(!verifyAccessTokenFromReq(req)){
+        res.sendStatus(401);
+        return
+    }
+
+    // req.body.for
+    // const concentrates = await Promise.all(req.body.map(async (current) => 
+    //     // console.log('current: '+JSON.stringify(current))
+    //     {
+    //         // return {
+    //         //     user_id: await getUserIdFromToken(req),
+    //         //     month: current.month,
+    //         //     ferrum: current.ferrum,
+    //         //     silicium: current.silicium,
+    //         //     aluminium: current.aluminium,
+    //         //     calcium: current.calcium,
+    //         //     sulfur: current.sulfur,
+    //         // }
+    //         return [
+    //             (typeof(+current.id)==="number"&&current.id?+current.id:0), 
+    //             await getUserIdFromToken(req),
+    //             current.month,
+    //             +current.ferrum,
+    //             +current.silicium,
+    //             +current.aluminium,
+    //             +current.calcium,
+    //             +current.sulfur,
+    //         ]
+    // }
+        
+    // ))
+
+    // const concentrates = req.body
+    const concentrates = await Promise.all(req.body.map(async (current) => {
+        return [
+            (typeof(+current[0])==="number"?+current[0]:0),
+            (typeof(+current[1])==="number"&&(+current[1])!==0?+current[1]:await getUserIdFromToken(req)),
+            current[2],
+            (typeof(+current[3])==="number"?+current[3]:null),
+            (typeof(+current[4])==="number"?+current[4]:null),
+            (typeof(+current[5])==="number"?+current[5]:null),
+            (typeof(+current[6])==="number"?+current[6]:null),
+            (typeof(+current[7])==="number"?+current[7]:null),
+        ]
+    }))
+
+    // const concentrate = {
+        // user_id: req.body.user_id,
+        // user_id: getUserIdFromToken(req).then(function(id){ return id}),
+        // user_id: 61,
+        // user_id: getUserIdFromToken(req).then(function(id){ console.log('id: '+id); return id}),
+    //     user_id: await getUserIdFromToken(req),
+    //     month: req.body.month,
+    //     ferrum: req.body.ferrum,
+    //     silicium: req.body.silicium,
+    //     aluminium: req.body.aluminium,
+    //     calcium: req.body.calcium,
+    //     sulfur: req.body.sulfur,
+    //     // ferrum: req.body.ferrum,
+    //     // ferrum: req.body.ferrum,
+    // };
+    console.log('concentrates: '+JSON.stringify( concentrates))
+
+    // connection.query('INSERT INTO concentrates SET ? ', concentrate, function(err, result){
+        // 'INSERT into mytable (name, email) VALUES ?'
+
+    // connection.query('INSERT INTO concentrates (user_id,month,ferrum,silicium,aluminium,calcium,sulfur) VALUES ? ', [concentrates], function(err, result){
+    // connection.query('REPLACE INTO concentrates (id,user_id,month,ferrum,silicium,aluminium,calcium,sulfur) VALUES ? ', [concentrates], function(err, result){
+
+    // db.query("INSERT INTO movies (id, adult, backdrop_path) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE adult=VALUES(adult), backdrop_path=VALUES(backdrop_path)",
+    // connection.query('INSERT INTO concentrates (id,user_id,month,ferrum,silicium,aluminium,calcium,sulfur) VALUES ? ON DUPLICATE KEY UPDATE id=VALUES(id)', [concentrates], function(err, result){
+    // connection.query('INSERT INTO concentrates (id,user_id,month,ferrum,silicium,aluminium,calcium,sulfur) VALUES ? ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id)', [concentrates], function(err, result){
+    connection.query('INSERT INTO concentrates (id,user_id,month,ferrum,silicium,aluminium,calcium,sulfur) VALUES ? ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id), user_id=VALUES(user_id), month=VALUES(month), ferrum=VALUES(ferrum), silicium=VALUES(silicium), aluminium=VALUES(aluminium), calcium=VALUES(calcium), sulfur=VALUES(sulfur) ', [concentrates], function(err, result){
+
+    // INSERT INTO programming_languages(id,name,released_year,githut_rank,pypl_rank,tiobe_rank) 
+    // connection.query('INSERT INTO concentrates VALUES ? ', concentrates, function(err, result){
+    // connection.query('INSERT INTO concentrates SET ? ', concentrate, function(err, result){
+        if(err) throw (err);
+        console.log('Concentrate added');
+        console.log('result: '+JSON.stringify(result));
+        console.log('inserted id: '+result.insertId)
+        // res.json('User added')
+        res.status(200).send('Concentrate added')
+    })
+})
+  ////////////////////////
+ // delete concentrate //
+////////////////////////
+// 
+// app.delete('/deleteuser', function(req,res){
+app.delete('/deleteconcentrate', function(req,res){
+    if(!verifyAccessTokenFromReq(req)){
+        res.sendStatus(401);
+        return
+    }
+
+    // console.log('id: '+req.params['id']);
+    console.log('id: '+req.body.id);
+
+    connection.query("DELETE FROM concentrates WHERE id = ?", [req.body.id], function(err, result){
+        if(err) throw (err);
+        console.log('Concentrate deleted');
+        console.log('result: '+JSON.stringify(result));
+        console.log('update id: '+result.insertId)
+        res.sendStatus(200)
+    })
+
+    // connection.query('INSERT INTO concentrates (id,user_id,month,ferrum,silicium,aluminium,calcium,sulfur) VALUES ? ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id), user_id=VALUES(user_id), month=VALUES(month), ferrum=VALUES(ferrum), silicium=VALUES(silicium), aluminium=VALUES(aluminium), calcium=VALUES(calcium), sulfur=VALUES(sulfur) ', [concentrates], function(err, result){
+    //     if(err) throw (err);
+    //     console.log('Concentrate added');
+    //     console.log('result: '+JSON.stringify(result));
+    //     console.log('inserted id: '+result.insertId)
+    //     res.status(200).send('Concentrate added')
+    // })
 })
 // edit ??
 // delete ??

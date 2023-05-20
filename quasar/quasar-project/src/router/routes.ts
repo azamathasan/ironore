@@ -6,21 +6,46 @@ const routes: RouteRecordRaw[] = [
     component: () => import('layouts/LoginLayout.vue'),
     children: [{ path: '', component: () => import('pages/LoginPage.vue') }],
   },
+  // {
+  //   path: '/concentrates',
+  //   component: () => import('layouts/LoginLayout.vue'),
+  //   children: [{ path: '', component: () => import('pages/ConcentratesPage.vue') }],
+  // },
+  // {
+  //   path: '/tablemode',
+  //   component: () => import('layouts/BelkaLayout.vue'),
+  //   children: [{ path: '', component: () => import('pages/ConcentratesPage.vue') }],
+  // },
   {
-    path: '/concentrates',
-    component: () => import('layouts/LoginLayout.vue'),
-    children: [{ path: '', component: () => import('pages/ConcentratesPage.vue') }],
+    path: '/index',
+    component: () => import('layouts/BelkaLayout.vue'),
+    children: [{ path: '', component: () => import('pages/WelcomePage.vue') }],
   },
   {
-    path: '/jspreadsheet',
-    component: () => import('layouts/LoginLayout.vue'),
+    path: '/tablemode',
+    component: () => import('layouts/BelkaLayout.vue'),
+    children: [{ path: '', component: () => import('pages/TableMode.vue') }],
+  },
+  {
+    path: '/excelmode',
+    component: () => import('layouts/BelkaLayout.vue'),
     children: [{ path: '', component: () => import('pages/JspreadsheetPage.vue') }],
   },
   {
-    path: '/',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
+    path: '/users',
+    component: () => import('layouts/BelkaLayout.vue'),
+    children: [{ path: '', component: () => import('pages/UsersPage.vue') }],
   },
+  {
+    path: '/jspreadsheet',
+    component: () => import('layouts/BelkaLayout.vue'),
+    children: [{ path: '', component: () => import('pages/JspreadsheetPage.vue') }],
+  },
+  // {
+  //   path: '/',
+  //   component: () => import('layouts/MainLayout.vue'),
+  //   children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
+  // },
 
   // Always leave this as last one,
   // but you can also remove it
