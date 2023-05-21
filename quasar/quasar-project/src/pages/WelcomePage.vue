@@ -57,6 +57,18 @@
             Форма отчета выводит среднее, минимальное и максимальные значения по всем концентратам за выбранный месяц.
             <br>
             <br>
+            <q-icon name="person" size="xl"/>USERS - Список пользователей
+            <br>
+            <br>
+            <q-icon name="assignment" size="xl"/>TABLE MODE - Данные в режиме таблицы
+            <br>
+            <br>
+            <q-icon name="table" size="xl" style="  margin-right: -40px; margin-left: 40px;"/>EXCEL MODE - Данные в режиме Excel (с использованием библиотеки Jspreadsheet)
+            <br>
+            <br>
+            <q-icon name="close" size="xl"/>EXIT - Выход из учетной записи
+            <br>
+            <br>
 
           </h5>
         </div>
