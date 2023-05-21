@@ -14,6 +14,7 @@ export const useAuthStore = defineStore('auth', {
     // counter: 0
     // token: JSON.parse(sessionStorage.getItem('token')||''),
     token: JSON.parse(sessionStorage.getItem('token')!),
+    isAuthenticated: false
     // returnUrl
   }),
 
@@ -63,6 +64,30 @@ export const useAuthStore = defineStore('auth', {
       this.token = null;
       sessionStorage.removeItem('token');
       this.router.push('/login');
+    },
+    // async isAuthenticated() {
+    async checkAuth() {
+      // console.log('isAuthenticated')
+      console.log('checkAuth in stores/auth.ts')
+      // const checkAuth = await api.get('checkauth')
+      await api.get('checkauth')
+      .then(async(response)=>{
+        console.log('then')
+        console.log('response.status: '+response.status)
+        // return response.status
+        if(response.status===200)
+        // return true
+        this.isAuthenticated=true
+      })
+      .catch(()=>{
+        console.log('catsh 401')
+        // return 401
+        // return false
+        this.isAuthenticated=false
+      })
+      
+      // console.log('checkAuth.status: '+checkAuth.status)
+      // return checkAuth
     }
     // increment () {
     //   this.counter++;

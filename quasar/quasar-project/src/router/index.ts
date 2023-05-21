@@ -6,6 +6,8 @@ import {
   createWebHistory,
 } from 'vue-router';
 import routes from './routes';
+import { useAuthStore } from 'src/stores/auth';
+import { useRouter } from 'vue-router';
 
 /*
  * If not building with SSR mode, you can
@@ -17,6 +19,7 @@ import routes from './routes';
  */
 
 export default route(function (/* { store, ssrContext } */) {
+  
   const createHistory = process.env.SERVER
     ? createMemoryHistory
     : (process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory);
@@ -32,6 +35,32 @@ export default route(function (/* { store, ssrContext } */) {
       process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE
     ),
   });
+Router.beforeEach(async (to, from)=>{
+  console.log('Router.beforeEach')
+  const authStore = useAuthStore()
+  const router = useRouter()
+  // const checkAuth = await authStore.isAuthenticated()
+  
+  // if(to.fullPath==='/login'){}
+  // await authStore.isAuthenticated()
+  return await authStore.checkAuth()
+  .then(async()=>{
+    if(!authStore.isAuthenticated)
+    {
+      if((to.fullPath!=='/login')&&(to.fullPath!=='/')){
+        // router.push('/login')
+        to.fullPath='/login'
+      }
+    } else {
+      console.log('to.fullPath1: '+to.fullPath)
+      if((to.fullPath==='/login')||(to.fullPath==='/')){
+        // router.push('/index')
+        // to.fullPath='/index'
+        return '/index'
+      }
+    }
+  })
+})
 
   return Router;
 });

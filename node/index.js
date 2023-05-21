@@ -217,6 +217,16 @@ app.post('/auth', function(req,res){
     })
     // const compare=bcrypt.compareSync(req.body.password, user.password);
 })
+app.get('/checkauth', function(req,res){
+    if(!verifyAccessTokenFromReq(req)){
+        res.sendStatus(401);
+        return
+    } else {
+        res.sendStatus(200);
+        return
+    }
+    // const compare=bcrypt.compareSync(req.body.password, user.password);
+})
 // app.post('/auth', function(req,res){})  
 
   //////////////
