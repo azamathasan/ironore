@@ -25,7 +25,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./quasar:/usr/src/app 
+      - ./quasar:/usr/src/app
       # After init quasar-project replace:
       # - ./node:/usr/src/app/quasar-project
   
@@ -69,3 +69,17 @@ services:
     restart: always
     ports:
       - 8082:8080
+  
+  apache:
+    # image: httpd:2.4
+    build:
+      context: ./apache
+      dockerfile: Dockerfile
+    container_name: apache
+    restart: always
+    volumes:
+      # - ./apache:/usr/local/apache2/htdocs/
+      - ./quasar/quasar-project/dist/spa:/usr/local/apache2/htdocs/
+      # - ./apache/httpd.conf /usr/local/apache2/conf/httpd.conf
+    ports:
+      - 8083:80

@@ -8,3 +8,23 @@ Excel input (import) component (jspreadsheet/spreadsheet)
 https://bossanova.uk/jspreadsheet/v4/examples/vue
 https://codesandbox.io/embed/vue-default-template-p4hwn
 https://github.com/jspreadsheet/example-with-vue
+
+
+3. Hosting commands
+
+mysql
+CREATE DATABASE iron;
+GRANT ALL PRIVILEGES ON iron.* TO 'mysqluser'@'localhost';  //(???)
+ALTER USER 'mysqluser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
+flush privileges;
+exit;
+
+pm2 start index_prod.js --name="iron"
+// pm2 stop iron
+// pm2 start iron
+
+***
+add to /router/index.ts  ('/iron' is the deploy path)
+    window.location.href = '/iron/#/login';
+add to /boot/axios.ts 
+    backendPort: '3001',
