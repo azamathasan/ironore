@@ -7,6 +7,16 @@ const routes: RouteRecordRaw[] = [
     component: () => import('layouts/LoginLayout.vue'),
     children: [{ path: '', component: () => import('pages/LoginPage.vue') }],
   },
+  // {
+  //   path: '/concentrates',
+  //   component: () => import('layouts/LoginLayout.vue'),
+  //   children: [{ path: '', component: () => import('pages/ConcentratesPage.vue') }],
+  // },
+  // {
+  //   path: '/tablemode',
+  //   component: () => import('layouts/BelkaLayout.vue'),
+  //   children: [{ path: '', component: () => import('pages/ConcentratesPage.vue') }],
+  // },
   {
     path: '/index',
     component: () => import('layouts/BelkaLayout.vue'),
@@ -32,6 +42,14 @@ const routes: RouteRecordRaw[] = [
     component: () => import('layouts/BelkaLayout.vue'),
     children: [{ path: '', component: () => import('pages/JspreadsheetPage.vue') }],
   },
+  // {
+  //   path: '/',
+  //   component: () => import('layouts/MainLayout.vue'),
+  //   children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
+  // },
+
+  // Always leave this as last one,
+  // but you can also remove it
   {
     path: '/:catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue'),

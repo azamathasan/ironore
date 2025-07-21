@@ -1,16 +1,22 @@
 <template>
   <q-page padding>
+    <!-- content -->
     <section>
       <div class="full-height full-width flex flex-center text-center"
           style="background-color: rgba(0, 0, 0, 0.68) !important;z-index:0;height: 100vh !important;">
       <div class="">
+        <!-- <div class="text-h6 text-grey-5">DEMO SPA</div> -->
         <div class="text-h6" style="color: #f4b825;">DEMO SPA</div>
         <div class="text-h2 text-white q-py-sm q-my-md"
               style="border-top:3px solid #1595de;border-bottom: 3px solid #2faa64;">КАЧЕСТВЕННЫЕ ПОКАЗАТЕЛИ ЖЕЛЕЗНОРУДНОГО КОНЦЕНТРАТА
         </div>
+        <!-- <div class="text-h6" style="color: #f4b825;"> -->
         <div class="text-h6" style="color: #1495de;">
           REST API | Docker | Docker-compose | Vue 3 | Quasar | Jspreadsheet | Node.js | Express.js | MySQL 
         </div>
+        <!-- <div style="color: #1495de !important;" class="text-h4 q-mt-md text-grey-2 my-font">
+          AzamHas
+        </div> -->
       </div>
     </div>
     </section>
@@ -75,5 +81,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 export default defineComponent({
+  // name: 'PageName'
 })
 </script>

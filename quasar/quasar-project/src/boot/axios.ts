@@ -34,6 +34,10 @@ api.interceptors.request.use(async req =>{
     const token = JSON.parse(sessionStorage.getItem('token')!);
 
     const tryToken = JSON.parse(sessionStorage.getItem('token')!);
+    // console.log('token.data in interceptor: '+JSON.stringify(token.data))
+    // console.log('tryToken in interceptor: '+JSON.stringify(tryToken.data))
+
+    // console.log('token in request interceptor: '+token)
     
     if(token) {
       console.log('if token axios.ts: '+token)
@@ -55,11 +59,13 @@ api.interceptors.request.use(async req =>{
   // })
   api.interceptors.response.use(
     response => {
+      // console.log("response: "+JSON.stringify(response))
       return response
     },
     error => {
       if (error.response.status === 401) {
         sessionStorage.removeItem('token')
+        // window.location.href = '/iron/#/login';
         window.location.href = '/#/login';
       }
     });
