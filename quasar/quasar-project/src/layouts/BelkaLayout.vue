@@ -1,30 +1,8 @@
 <template>
   <q-layout view="hHh Lpr fFf"> <!-- Be sure to play with the Layout demo on docs -->
-
-    <!-- (Optional) The Header -->
     <q-header elevated>
-      <!-- <q-toolbar>
-        <q-btn
-          flat
-          round
-          dense
-          icon="menu"
-          @click="leftDrawer = !leftDrawer"
-        />
-        <q-toolbar-title>
-          Header
-        </q-toolbar-title>
-      </q-toolbar> -->
-
       <q-tabs>
         <q-toolbar>
-        <!-- <q-btn
-          flat
-          round
-          dense
-          icon="menu"
-          @click="leftDrawer = !leftDrawer"
-        /> -->
         <q-toolbar-title>
           Header
         </q-toolbar-title>
@@ -53,59 +31,14 @@
           replace
           label="Excel mode"
         />
-        <!-- <q-route-tab
-          icon="close"
-          to="/users"
-          replace
-          label="Exit"
-        /> -->
         <q-route-tab
           icon="close"
           @click="logout"
           replace
           label="Exit"
         />
-        <!-- <q-route-tab
-          icon="map"
-          to="/your/route"
-          replace
-          label="One Tab"
-        /> -->
       </q-tabs>
     </q-header>
-
-    <!-- (Optional) The Footer -->
-    <!-- <q-footer>
-      <q-tabs switch-indicator>
-        <q-route-tab
-          icon="map"
-          to="/your/route"
-          replace
-          label="One Tab"
-        />
-        <q-route-tab
-          icon="assignment"
-          to="/some/other/route"
-          replace
-          label="Other Tab"
-        />
-      </q-tabs>
-
-      <q-toolbar>
-        <q-btn
-          flat
-          round
-          dense
-          icon="menu"
-          @click="leftDrawer = !leftDrawer"
-        />
-        <q-toolbar-title>
-          Footer
-        </q-toolbar-title>
-      </q-toolbar>
-    </q-footer> -->
-
-    <!-- (Optional) A Drawer; you can add one more with side="right" or change this one's side -->
     <q-drawer
       v-model="leftDrawer"
       side="left"

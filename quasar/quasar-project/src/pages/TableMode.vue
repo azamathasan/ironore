@@ -1,17 +1,5 @@
 <template>
   <q-page padding>
-    <!-- <q-table
-      title="Table Title"
-      :rows="tableData"
-      :columns="columns"
-      row-key="name"
-    /> -->
-    <!-- <q-table
-      title="Treats"
-      :rows="rows"
-      :columns="columns"
-      row-key="name"
-    /> -->
     <div class="q-pa-md q-gutter-sm row">
       <q-btn color="primary" text-color="black" label="Make report" @click="makeReport"/>
       <q-select rounded outlined v-model="month" :options="months" label="Month" style="width: 150px"/>
@@ -32,17 +20,7 @@
       :columns="columnsc"
       row-key="name"
     />
-    <!-- <div>************************************</div>
-    <q-table
-      title="Concentrates"
-      :rows="rowsc"
-      :columns="columnsc"
-      row-key="name"
-    />
-    <div>************************************</div> -->
     <div class="q-gutter-md row rounded-borders q-ma-xl">
-      <!-- <q-input outlined v-model="text" label="Outlined" /> -->
-      <!-- <q-select rounded outlined v-model="month" :options="months" label="Month" style="width: 150px"/> -->
       <q-select outlined v-model="concentrateAdd.month" :options="months" label="Month" style="width: 150px"/>
       <q-input outlined v-model="concentrateAdd.ferrum" label="Ferrum" />
       <q-input outlined v-model="concentrateAdd.silicium" label="Silicium" />
@@ -62,7 +40,6 @@ import JspreadsheetComponent from 'components/JspreadsheetComponent.vue'
 import {  Substances, Concentrate, RowReport, ConcentrateAdd } from 'src/types/interfaces'
 
 export default defineComponent({
-  // name: 'PageName'
   setup(){
     const concentratesStore = useConcentratesStore();
     concentratesStore.fetch()
@@ -79,7 +56,6 @@ export default defineComponent({
         label: 'User id',
         align: 'left',
         field: row => row.user_id,
-        // format: val => `${val}`,
         sortable: true
       },
       { name: 'month', align: 'center', label: 'Month', field: 'month', sortable: true },
@@ -88,7 +64,6 @@ export default defineComponent({
       { name: 'aluminium', label: 'Aluminium', field: 'aluminium' },
       { name: 'calcium', label: 'Calcium', field: 'calcium' },
       { name: 'sulfur', label: 'Sulfur', field: 'sulfur', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
-      // { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
     ]
     const rowsc = [
       {
@@ -120,19 +95,9 @@ export default defineComponent({
       { name: 'aluminium', label: 'Aluminium', field: 'aluminium' },
       { name: 'calcium', label: 'Calcium', field: 'calcium' },
       { name: 'sulfur', label: 'Sulfur', field: 'sulfur', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
-      // { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
     ]
-
-
     const month = ref<null|string>(null)
     const rowsReport = ref<undefined|RowReport[]>(undefined)
-
-    // const concentrateAdd = ref(['null',
-    //   1,
-    //   2,
-    //   3,
-    //   4,
-    //   5 ])
     const concentrateAdd = ref<ConcentrateAdd>({
       month: null,
       ferrum: undefined,
@@ -170,7 +135,7 @@ export default defineComponent({
             sulfur: undefined
           }
           const reportRowAverage:any = {value: 'average'}
-          columnsReport.slice(1).forEach((column:QTableColumn, index) => {
+          columnsReport.slice(1).forEach((column:QTableColumn) => {
             const oreComponent:number[] = (concentratesStore.concentrates! as [])
             .filter((concentrateRow:Concentrate)=>{
               if(concentrateRow.month===month.value){
@@ -180,11 +145,9 @@ export default defineComponent({
             })
             .map(
               (concentrateRow:Concentrate)=>{
-                // console.log('concentrateRow in concentrateStore.concentrates.map for oreComponent: '+JSON.stringify(concentrateRow))
                 return concentrateRow[column.name as keyof Concentrate] as number
               }
               );
-            console.log('oreComponent: '+JSON.stringify(oreComponent));
             reportRowMax[column.name as keyof Substances]=Math.max.apply(null, oreComponent)
             reportRowMin[column.name as keyof Substances]=Math.min.apply(null, oreComponent)
             const sum = oreComponent.reduce((accum, current) => {

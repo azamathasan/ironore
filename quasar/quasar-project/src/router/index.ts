@@ -36,26 +36,17 @@ export default route(function (/* { store, ssrContext } */) {
     ),
   });
 Router.beforeEach(async (to, from)=>{
-  console.log('Router.beforeEach')
   const authStore = useAuthStore()
   const router = useRouter()
-  // const checkAuth = await authStore.isAuthenticated()
-  
-  // if(to.fullPath==='/login'){}
-  // await authStore.isAuthenticated()
   return await authStore.checkAuth()
   .then(async()=>{
     if(!authStore.isAuthenticated)
     {
       if((to.fullPath!=='/login')&&(to.fullPath!=='/')){
-        // router.push('/login')
         to.fullPath='/login'
       }
     } else {
-      console.log('to.fullPath1: '+to.fullPath)
       if((to.fullPath==='/login')||(to.fullPath==='/')){
-        // router.push('/index')
-        // to.fullPath='/index'
         return '/index'
       }
     }
