@@ -27,35 +27,22 @@ export default route(function (/* { store, ssrContext } */) {
   const Router = createRouter({
     scrollBehavior: () => ({ left: 0, top: 0 }),
     routes,
-
-    // Leave this as is and make changes in quasar.conf.js instead!
-    // quasar.conf.js -> build -> vueRouterMode
-    // quasar.conf.js -> build -> publicPath
     history: createHistory(
       process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE
     ),
   });
 Router.beforeEach(async (to, from)=>{
-  console.log('Router.beforeEach')
   const authStore = useAuthStore()
   const router = useRouter()
-  // const checkAuth = await authStore.isAuthenticated()
-  
-  // if(to.fullPath==='/login'){}
-  // await authStore.isAuthenticated()
   return await authStore.checkAuth()
   .then(async()=>{
     if(!authStore.isAuthenticated)
     {
       if((to.fullPath!=='/login')&&(to.fullPath!=='/')){
-        // router.push('/login')
         to.fullPath='/login'
       }
     } else {
-      console.log('to.fullPath1: '+to.fullPath)
       if((to.fullPath==='/login')||(to.fullPath==='/')){
-        // router.push('/index')
-        // to.fullPath='/index'
         return '/index'
       }
     }
