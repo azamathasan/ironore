@@ -1,14 +1,14 @@
-name: CI for project
+name: CI for ironore
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
-  hello-world:
-    runs-on: ubuntu-latest
+  cicd-for-ironore:
+    runs-on: ubuntu-22.04
     
     steps:
     - name: Checkout code
